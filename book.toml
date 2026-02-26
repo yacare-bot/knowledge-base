@@ -1,0 +1,19 @@
+[book]
+title = "yacaré.bot Knowledge Base"
+authors = ["yacaré.bot"]
+description = "Base de conocimiento automatizada — procesada y clasificada por yacaré.bot"
+language = "es"
+multilingual = false
+src = "src"
+
+[output.html]
+default-theme = "navy"
+preferred-dark-theme = "ayu"
+git-repository-url = "https://github.com/yacare-bot/knowledge-base"
+git-repository-icon = "fa-github"
+edit-url-template = "https://github.com/yacare-bot/knowledge-base/edit/main/{path}"
+site-url = "/knowledge-base/"
+
+[output.html.fold]
+enable = true
+level = 1
