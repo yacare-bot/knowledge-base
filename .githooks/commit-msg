@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+MSG_FILE="$1"
+FIRST_LINE="$(head -n1 "$MSG_FILE" | tr -d '\r')"
+FIRST_LEN=$(printf %s "$FIRST_LINE" | wc -c)
+
+# Conventional Commits: type(scope?): subject
+# Allowed types
+TYPE_REGEX='feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert'
+
+if [[ ! "$FIRST_LINE" =~ ^(${TYPE_REGEX})(\([a-z0-9._-]+\))?:\  ]]; then
+  cat <<'EOF'
+ERROR: Mensaje de commit no cumple Conventional Commits.
+
+Formato:  type(scope?): subject
+Tipos:    feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
+
+Ejemplos:
+  feat(bpi): inicial BPI con Terraform y Ansible
+  fix(app): corregir variable nula en módulo
+EOF
+  exit 1
+fi
+
+# Validar longitud máxima del asunto (80 caracteres)
+if [[ $FIRST_LEN -gt 80 ]]; then
+  echo "ERROR: La primera línea supera 80 caracteres (actual: $FIRST_LEN)." >&2
+  echo "Sugerencia: resume el título y mueve detalles al cuerpo envuelto a 72 col." >&2
+  exit 1
+fi
+
+exit 0

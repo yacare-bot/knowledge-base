@@ -1,0 +1,34 @@
+name: Build and Deploy mdBook
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup mdBook
+      uses: peaceiris/actions-mdbook@v1
+      with:
+        mdbook-version: '0.4.36'
+    
+    - name: Build mdBook
+      run: mdbook build
+    
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./book
+        publish_branch: gh-pages
+        force_orphan: true
+    
+    - name: Notify Success
+      run: |
+        echo "📚 mdBook built and deployed successfully!"
+        echo "📖 Available at: https://yacare-bot.github.io/knowledge-base/"
