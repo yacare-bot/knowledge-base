@@ -1,0 +1,757 @@
+<!DOCTYPE HTML>
+<html lang="es" class="navy" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>yacaré.bot Knowledge Base</title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="Base de conocimiento automatizada — procesada y clasificada por yacaré.bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "navy";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('navy')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introducción</a></li><li class="chapter-item expanded "><a href="inbox/index.html"><strong aria-hidden="true">1.</strong> Febrero 2026</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="inbox/2026-02/EVID-20260226-013.html"><strong aria-hidden="true">1.1.</strong> EVID-20260226-013</a></li><li class="chapter-item "><a href="inbox/2026-02/EVID-20260226-014.html"><strong aria-hidden="true">1.2.</strong> EVID-20260226-014</a></li><li class="chapter-item "><a href="inbox/2026-02/EVID-20260226-015.html"><strong aria-hidden="true">1.3.</strong> EVID-20260226-015</a></li></ol></li><li class="chapter-item expanded "><a href="comit/index.html"><strong aria-hidden="true">2.</strong> ERP / iDempiere</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="comit/EVID-20260226-014-plan-de-implementación-para-integrar-un-agente-de-.html"><strong aria-hidden="true">2.1.</strong> EVID-014 - WhatsApp/Instagram Integration Plan</a></li></ol></li><li class="chapter-item expanded "><a href="maker/index.html"><strong aria-hidden="true">3.</strong> Raspberry Pi / ESP32</a></li><li class="chapter-item expanded "><a href="datascience/index.html"><strong aria-hidden="true">4.</strong> Machine Learning / Transformers</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="datascience/EVID-20260226-013-google-nested-learning.html"><strong aria-hidden="true">4.1.</strong> EVID-013 - Google Nested Learning</a></li><li class="chapter-item "><a href="datascience/EVID-20260226-015-introduction-to-neural-networks-mnist-tutorial.html"><strong aria-hidden="true">4.2.</strong> EVID-015 - Introduction to Neural Networks (MNIST)</a></li></ol></li><li class="chapter-item expanded "><a href="general/index.html"><strong aria-hidden="true">5.</strong> Software Development / Cloud</a></li><li class="spacer"></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">yacaré.bot Knowledge Base</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/yacare-bot/knowledge-base" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="-yacarébot-knowledge-base"><a class="header" href="#-yacarébot-knowledge-base">🐊 yacaré.bot Knowledge Base</a></h1>
+<p>Base de conocimiento automatizada — capturada, clasificada y organizada por <strong>yacaré.bot</strong>.</p>
+<h2 id="qué-es-esto"><a class="header" href="#qué-es-esto">¿Qué es esto?</a></h2>
+<p>Cada artículo, video, documento o newsletter que emmie envía al bot via <code>/z</code> pasa por un pipeline de procesamiento automático:</p>
+<ol>
+<li><strong>Captura</strong> → Evidencia con ID único (<code>EVID-YYYYMMDD-NNN</code>)</li>
+<li><strong>Scoring</strong> → Relevancia calculada en 4 facetas</li>
+<li><strong>Clasificación</strong> → Asignado a una carpeta según faceta principal</li>
+<li><strong>Trello</strong> → Tarjeta creada para revisión HITL</li>
+<li><strong>GitHub</strong> → Artículo enriquecido guardado aquí</li>
+</ol>
+<h2 id="-sistema-de-scoring-4-facetas"><a class="header" href="#-sistema-de-scoring-4-facetas">📊 Sistema de Scoring (4 Facetas)</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Faceta</th><th>Descripción</th><th>Keywords</th></tr></thead><tbody>
+<tr><td>🏢 <strong>Comit SRL</strong></td><td>Negocio / ERP</td><td>iDempiere, ERP, business software, WhatsApp</td></tr>
+<tr><td>🔧 <strong>Maker/IoT</strong></td><td>Proyectos personales</td><td>Raspberry Pi, ESP32, IoT, edge computing</td></tr>
+<tr><td>🤖 <strong>Data Science</strong></td><td>IA / ML</td><td>neural networks, transformers, machine learning</td></tr>
+<tr><td>💻 <strong>General Tech</strong></td><td>Software / Cloud</td><td>APIs, webhooks, development, cloud</td></tr>
+</tbody></table>
+</div>
+<h2 id="-links"><a class="header" href="#-links">🔗 Links</a></h2>
+<ul>
+<li><strong>Trello Board</strong>: <a href="https://trello.com/b/DfpW1hIO/yacare-bot-inbox">yacare-bot Inbox</a></li>
+<li><strong>Repositorio</strong>: <a href="https://github.com/yacare-bot/knowledge-base">github.com/yacare-bot/knowledge-base</a></li>
+</ul>
+<hr />
+<p><em>Sistema yacaré.bot MVP V1.0 — 2026</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="-inbox---procesado-automático"><a class="header" href="#-inbox---procesado-automático">📥 Inbox - Procesado Automático</a></h1>
+<p>Artículos en bruto procesados por yacaré.bot, organizados por fecha.</p>
+<h2 id="-estructura"><a class="header" href="#-estructura">📅 Estructura</a></h2>
+<ul>
+<li><code>2026-02/</code> - Artículos procesados en Febrero 2026</li>
+<li>Cada archivo: <code>EVID-YYYYMMDD-NNN.md</code></li>
+</ul>
+<h2 id="-metadata-incluida"><a class="header" href="#-metadata-incluida">🔍 Metadata Incluida</a></h2>
+<p>Cada artículo incluye:</p>
+<ul>
+<li>Score de relevancia (0-10)</li>
+<li>Facetas detectadas</li>
+<li>Análisis automático</li>
+<li>Links a Trello y original</li>
+</ul>
+<hr />
+<p><em>Procesado automáticamente por yacaré.bot</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="evid-20260226-013"><a class="header" href="#evid-20260226-013">EVID-20260226-013</a></h1>
+<p><strong>Fuente</strong>: web
+<strong>Referencia</strong>: https://medium.com/data-science-in-your-pocket/what-is-google-nested-learning-34385df5c40b
+<strong>Fecha</strong>: 2026-02-26T13:21:04.268972
+<strong>Estado</strong>: PROCESSING</p>
+<hr />
+<h2 id="-resumen-ejecutivo"><a class="header" href="#-resumen-ejecutivo">📋 Resumen Ejecutivo</a></h2>
+<p>https://medium.com/data-science-in-your-pocket/what-is-google-nested-learning-34385df5c40b</p>
+<h2 id="-puntos-clave"><a class="header" href="#-puntos-clave">🔑 Puntos Clave</a></h2>
+<ul>
+<li>com/data-science-in-your-pocket/what-is-google-nested-learning-34385df5c40b</li>
+</ul>
+<h2 id="-acciones-propuestas"><a class="header" href="#-acciones-propuestas">🎯 Acciones Propuestas</a></h2>
+<ul>
+<li><strong>KNOW</strong>: Investigar o aprender más sobre el tema (Prioridad: P3)</li>
+</ul>
+<hr />
+<p><em>Procesado automáticamente por yacaré.bot</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="evid-20260226-014"><a class="header" href="#evid-20260226-014">EVID-20260226-014</a></h1>
+<p><strong>Título</strong>: Plan de implementación para integrar un agente de soporte con WhatsApp e Instagram vía Meta
+<strong>Fecha</strong>: 2026-02-26T18:02:40.198276
+<strong>Score</strong>: 22/10 (⭐⭐⭐ HIGH)</p>
+<hr />
+<h1 id="plan-de-implementación-para-integrar-un-agente-de-soporte-con-whatsapp-e-instagram-vía-meta"><a class="header" href="#plan-de-implementación-para-integrar-un-agente-de-soporte-con-whatsapp-e-instagram-vía-meta">Plan de implementación para integrar un agente de soporte con WhatsApp e Instagram vía Meta</a></h1>
+<h2 id="contexto-y-opciones-de-integración-en-el-ecosistema-meta"><a class="header" href="#contexto-y-opciones-de-integración-en-el-ecosistema-meta">Contexto y opciones de integración en el ecosistema Meta</a></h2>
+<p>Tu intuición es correcta: si querés “unificar” el ingreso de consultas desde WhatsApp e Instagram hacia un mismo agente, lo más habitual es <strong>integrarte al ecosistema de Meta</strong> (cuentas de negocio + APIs + webhooks) y construir una <strong>capa propia de orquestación omnicanal</strong> (un “router” que normaliza mensajes y los conversa con tu agente). En términos prácticos, la “unificación” no es un único botón mágico: es una <strong>arquitectura</strong> donde cada canal tiene su forma de autenticar, notificar eventos y enviar respuestas, y vos lo convertís a un modelo común.</p>
+<p>Dos piezas clave del rompecabezas, según documentación pública de Meta y colecciones oficiales:</p>
+<ul>
+<li><strong>WhatsApp</strong>: la <strong>Cloud API (API, interfaz de programación de aplicaciones)</strong> es la API oficial de WhatsApp Business Platform para mensajería empresarial. citeturn9search38</li>
+<li><strong>Instagram (mensajes directos)</strong>: Meta posiciona la <strong>Messenger Platform</strong> como el mecanismo para enviar y recibir mensajes entre una cuenta profesional de Instagram y sus usuarios. citeturn12search2</li>
+</ul>
+<p>Una decisión estratégica aparece muy temprano: <strong>integración directa</strong> vs <strong>proveedor/partner</strong> (p. ej., Infobip, Twilio, Zendesk, etc.). La integración directa te da máximo control, pero suele implicar más trabajo de permisos, configuración y operación. En WhatsApp existe la figura de <strong>Solution Provider</strong> (antes BSP (Business Solution Provider, proveedor de soluciones empresariales)), mencionada incluso en políticas (por ejemplo, para ciertos tipos de entidades/verticales). citeturn11search7turn11search1</p>
+<h2 id="requisitos-y-pieza-por-pieza-de-meta"><a class="header" href="#requisitos-y-pieza-por-pieza-de-meta">Requisitos y “pieza por pieza” de Meta</a></h2>
+<p>A continuación trato cada canal como un <strong>problema complejo</strong> y aplico un enfoque metacognitivo explícito.</p>
+<h3 id="integración-con-whatsapp-business-platform-usando-cloud-api"><a class="header" href="#integración-con-whatsapp-business-platform-usando-cloud-api">Integración con WhatsApp Business Platform usando Cloud API</a></h3>
+<p><strong>DESCOMPONER (subproblemas)</strong>
+Necesitás resolver, como mínimo:...</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="evid-20260226-015"><a class="header" href="#evid-20260226-015">EVID-20260226-015</a></h1>
+<p><strong>Título</strong>: Understanding Neural Networks: From Pixels to Digits Recognition
+<strong>Fecha</strong>: 2026-02-26T18:21:08.742451
+<strong>Score</strong>: 18/10 (⭐⭐⭐ HIGH)</p>
+<hr />
+<p>This is a 3.
+It's sloppily written and rendered at an extremely low resolution of 28x28 pixels,
+but your brain has no trouble recognizing it as a 3.
+And I want you to take a moment to appreciate how crazy it is that brains can do this so effortlessly.
+I mean, this, this, and this are also recognizable as 3s,
+even though the specific values of each pixel is very different from one image to the next.
+The particular light-sensitive cells in your eye that are firing when you see this 3
+are very different from the ones firing when you see this 3.
+But something in that crazy smart visual cortex of yours resolves these as representing the same idea,
+while at the same time recognizing other images as their own distinct ideas.
+But if I told you, hey, sit down and write for me a program
+that takes in a grid of 28x28 pixels like this
+and outputs a single number between 0 and 10,
+telling you what it thinks the digit is,
+well, the task goes from comically trivial to dauntingly difficult.
+Unless you've been living under a rock,
+I think I hardly need to motivate the relevance and importance of machine learning and neural networks
+to the present and to the future.
+But what I want to do here is show you what a neural network actually is,
+assuming no background,
+and to help visualize what it's doing.
+Not as a buzzword, but as a piece of math.
+My hope is just that you come away feeling like the structure itself is motivated,
+and to feel like you know what it means when you read or you hear about a neural network
+quote-unquote learning.
+This video is just going to be devoted to the structure component of that,
+and the following one is going to tackle learning.
+What we're going to do is put together a neural network
+that can learn to recognize handwritten digits.
+This is a somewhat classic example for introducing the topic,
+and I'm happy to stick with the status quo here,
+because at the end of the two videos,
+I want to point you to a couple good resources where you can learn more,
+and w...</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="-comit-srl---negocio--erp"><a class="header" href="#-comit-srl---negocio--erp">🏢 Comit SRL - Negocio / ERP</a></h1>
+<p>Artículos relevantes para el negocio de Comit SRL, iDempiere, ERP, y software empresarial.</p>
+<h2 id="-criterios-de-inclusión"><a class="header" href="#-criterios-de-inclusión">📋 Criterios de Inclusión</a></h2>
+<ul>
+<li>iDempiere, ERP, business software</li>
+<li>Google, Microsoft, enterprise tech</li>
+<li>Software development best practices</li>
+<li>Cloud computing for businesses</li>
+<li>Digital transformation</li>
+</ul>
+<h2 id="-scoring"><a class="header" href="#-scoring">📊 Scoring</a></h2>
+<p>Puntos por keywords específicos de negocio y empresa.</p>
+<hr />
+<p><em>Organizado automáticamente por yacaré.bot</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="plan-de-implementación-para-integrar-un-agente-de-soporte-con-whatsapp-e-instagram-vía-meta-1"><a class="header" href="#plan-de-implementación-para-integrar-un-agente-de-soporte-con-whatsapp-e-instagram-vía-meta-1">Plan de implementación para integrar un agente de soporte con WhatsApp e Instagram vía Meta</a></h1>
+<p><strong>Evidencia ID</strong>: EVID-20260226-014<br />
+<strong>Fuente</strong>: Documento técnico (procesado automáticamente)<br />
+<strong>Fecha</strong>: 2026-02-26T18:02:40.197853<br />
+<strong>Estado</strong>: PROCESADO</p>
+<hr />
+<h2 id="-resumen-ejecutivo-1"><a class="header" href="#-resumen-ejecutivo-1">📋 Resumen Ejecutivo</a></h2>
+<p>Plan de implementación detallado para integrar un agente de soporte (Kimun) con WhatsApp e Instagram a través de las APIs de Meta. Documento incluye arquitectura omnicanal, fases de implementación, riesgos y cumplimiento.</p>
+<h2 id="-relevancia-para-comit-srl"><a class="header" href="#-relevancia-para-comit-srl">🎯 Relevancia para Comit SRL</a></h2>
+<p><strong>Score</strong>: 22/10 ⭐⭐⭐ HIGH<br />
+<strong>Impacto comercial</strong>: ALTO (expansión de negocio, nuevos canales de cliente)<br />
+<strong>Aplicación directa</strong>: Desarrollo de plugins para Kimun Agent</p>
+<h2 id="-facetas-detectadas"><a class="header" href="#-facetas-detectadas">📊 Facetas Detectadas</a></h2>
+<p>Comit SRL, Maker/IoT, Data Science, General Tech</p>
+<h3 id="breakdown-detallado"><a class="header" href="#breakdown-detallado">Breakdown Detallado:</a></h3>
+<p>{
+&quot;comit_srl&quot;: 9,
+&quot;maker_iot&quot;: 3,
+&quot;data_science&quot;: 2,
+&quot;technical&quot;: 5,
+&quot;practical&quot;: 3,
+&quot;exclusion&quot;: 0
+}</p>
+<h2 id="-arquitectura-propuesta"><a class="header" href="#-arquitectura-propuesta">🏗️ Arquitectura Propuesta</a></h2>
+<h3 id="capas-del-sistema"><a class="header" href="#capas-del-sistema">Capas del Sistema:</a></h3>
+<ol>
+<li><strong>Capa Meta</strong> (APIs de WhatsApp/Instagram)</li>
+<li><strong>Capa de Unificación</strong> (normalización omnicanal)</li>
+<li><strong>Capa de Gobernanza</strong> (reglas de negocio y compliance)</li>
+</ol>
+<h3 id="componentes-clave"><a class="header" href="#componentes-clave">Componentes Clave:</a></h3>
+<ul>
+<li>WhatsApp Cloud API + WABA + Phone Number ID</li>
+<li>Instagram Messenger Platform</li>
+<li>Webhooks para eventos en tiempo real</li>
+<li>Sistema de templates (WhatsApp Business)</li>
+<li>Adaptadores por canal</li>
+</ul>
+<h2 id="-fases-de-implementación"><a class="header" href="#-fases-de-implementación">📅 Fases de Implementación</a></h2>
+<h3 id="fase-1-preparación-meta"><a class="header" href="#fase-1-preparación-meta">Fase 1: Preparación Meta</a></h3>
+<ul>
+<li>Creación de portafolio de negocio</li>
+<li>Configuración de WABA y números</li>
+<li>Definición de política de cumplimiento</li>
+</ul>
+<h3 id="fase-2-mvp-por-canal"><a class="header" href="#fase-2-mvp-por-canal">Fase 2: MVP por Canal</a></h3>
+<ul>
+<li>Webhooks básicos (verificación y recepción)</li>
+<li>Respuestas automáticas simples</li>
+<li>Persistencia de conversaciones</li>
+</ul>
+<h3 id="fase-3-unificación-omnicanal"><a class="header" href="#fase-3-unificación-omnicanal">Fase 3: Unificación Omnicanal</a></h3>
+<ul>
+<li>Normalización de eventos</li>
+<li>Sistema de identidad unificada</li>
+<li>Reglas de negocio por canal</li>
+</ul>
+<h3 id="fase-4-producción"><a class="header" href="#fase-4-producción">Fase 4: Producción</a></h3>
+<ul>
+<li>Tokens estables (system user)</li>
+<li>Revisión de permisos (App Review)</li>
+<li>Monitoreo y trazabilidad</li>
+</ul>
+<h2 id="-riesgos-y-cumplimiento"><a class="header" href="#-riesgos-y-cumplimiento">⚠️ Riesgos y Cumplimiento</a></h2>
+<h3 id="cumplimiento"><a class="header" href="#cumplimiento">Cumplimiento:</a></h3>
+<ul>
+<li>WhatsApp Business Messaging Policy</li>
+<li>Ventanas de 24h y templates</li>
+<li>Políticas anti-spam</li>
+</ul>
+<h3 id="riesgos-técnicos"><a class="header" href="#riesgos-técnicos">Riesgos Técnicos:</a></h3>
+<ul>
+<li>Verificación de webhooks</li>
+<li>Gestión de tokens (rotación/expiración)</li>
+<li>Configuración Instagram (variantes)</li>
+</ul>
+<h2 id="-integración-con-kimun-agent"><a class="header" href="#-integración-con-kimun-agent">🔗 Integración con Kimun Agent</a></h2>
+<h3 id="plugins-requeridos"><a class="header" href="#plugins-requeridos">Plugins Requeridos:</a></h3>
+<ol>
+<li><strong>Meta Channels Plugin</strong> (WhatsApp + Instagram)</li>
+<li><strong>Omnichannel Router</strong> (normalización)</li>
+<li><strong>Template Manager</strong> (gestión de plantillas)</li>
+<li><strong>Compliance Engine</strong> (reglas de negocio)</li>
+</ol>
+<h3 id="desarrollo-priorizado"><a class="header" href="#desarrollo-priorizado">Desarrollo Priorizado:</a></h3>
+<ol>
+<li>Webhook verification endpoint</li>
+<li>Adaptador WhatsApp Cloud API</li>
+<li>Adaptador Instagram Messenger</li>
+<li>Base de datos de conversaciones</li>
+</ol>
+<h2 id="-acciones-sugeridas"><a class="header" href="#-acciones-sugeridas">🚀 Acciones Sugeridas</a></h2>
+<h3 id="know"><a class="header" href="#know">KNOW:</a></h3>
+<ul>
+<li>Estudiar documentación oficial de Meta APIs</li>
+<li>Revisar políticas de WhatsApp Business</li>
+<li>Analizar casos de uso similares</li>
+</ul>
+<h3 id="code"><a class="header" href="#code">CODE:</a></h3>
+<ul>
+<li>Implementar endpoint de webhooks</li>
+<li>Crear adaptador WhatsApp básico</li>
+<li>Desarrollar sistema de normalización</li>
+</ul>
+<h3 id="tests"><a class="header" href="#tests">TESTS:</a></h3>
+<ul>
+<li>Pruebas de verificación webhook</li>
+<li>Tests de templates WhatsApp</li>
+<li>Validación de compliance</li>
+</ul>
+<h3 id="deck"><a class="header" href="#deck">DECK:</a></h3>
+<ul>
+<li>Presentación para stakeholders</li>
+<li>Documentación técnica interna</li>
+<li>Guías de implementación</li>
+</ul>
+<hr />
+<h2 id="-clasificación-automática"><a class="header" href="#-clasificación-automática">🏷️ Clasificación Automática</a></h2>
+<p><strong>Faceta principal</strong>: Comit SRL (Negocio/Expansión)<br />
+<strong>Score total</strong>: 22/10 ⭐⭐⭐ HIGH<br />
+<strong>Business Impact</strong>: HIGH<br />
+<strong>Urgency</strong>: MEDIUM-HIGH</p>
+<h2 id="-integraciones"><a class="header" href="#-integraciones">🔗 Integraciones</a></h2>
+<ul>
+<li><strong>Trello</strong>: Por crear (evidencia EVID-20260226-014)</li>
+<li><strong>GitHub</strong>: Este archivo en </li>
+<li><strong>Kimun Agent</strong>: Plugin de canales Meta</li>
+</ul>
+<h2 id="-organización"><a class="header" href="#-organización">📁 Organización</a></h2>
+<p>Este documento fue clasificado automáticamente en  porque:</p>
+<ol>
+<li>Alto score en Comit SRL (relevancia comercial máxima)</li>
+<li>Documento estratégico para expansión de negocio</li>
+<li>Aplicación directa a desarrollo de productos Comit SRL</li>
+</ol>
+<hr />
+<p><em>Procesado automáticamente por yacaré.bot - Sistema de scoring V1.0</em><br />
+<em>Documento original: EVID-20260226-014</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="-maker--iot--edge-computing"><a class="header" href="#-maker--iot--edge-computing">🔧 Maker / IoT / Edge Computing</a></h1>
+<p>Artículos sobre Raspberry Pi, ESP32, IoT, edge computing, y proyectos maker.</p>
+<h2 id="-criterios-de-inclusión-1"><a class="header" href="#-criterios-de-inclusión-1">📋 Criterios de Inclusión</a></h2>
+<ul>
+<li>Raspberry Pi, ESP32, Arduino</li>
+<li>IoT (Internet of Things)</li>
+<li>Edge computing, fog computing</li>
+<li>Home automation, sensors</li>
+<li>DIY electronics, prototyping</li>
+</ul>
+<h2 id="-scoring-1"><a class="header" href="#-scoring-1">📊 Scoring</a></h2>
+<p>Puntos por keywords de hardware, IoT, y proyectos prácticos.</p>
+<hr />
+<p><em>Organizado automáticamente por yacaré.bot</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="-data-science--artificial-intelligence"><a class="header" href="#-data-science--artificial-intelligence">🤖 Data Science / Artificial Intelligence</a></h1>
+<p>Artículos sobre machine learning, AI, transformers, y data science.</p>
+<h2 id="-criterios-de-inclusión-2"><a class="header" href="#-criterios-de-inclusión-2">📋 Criterios de Inclusión</a></h2>
+<ul>
+<li>Machine learning, deep learning</li>
+<li>AI, artificial intelligence</li>
+<li>Transformers, RNNs, neural networks</li>
+<li>Data science, analytics</li>
+<li>NLP, computer vision</li>
+</ul>
+<h2 id="-scoring-2"><a class="header" href="#-scoring-2">📊 Scoring</a></h2>
+<p>Puntos por keywords técnicos de AI/ML y data science.</p>
+<hr />
+<p><em>Organizado automáticamente por yacaré.bot</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="evid-20260226-013---what-is-google-nested-learning"><a class="header" href="#evid-20260226-013---what-is-google-nested-learning">EVID-20260226-013 - What is Google Nested Learning?</a></h1>
+<p><strong>Fuente</strong>: web<br />
+<strong>Referencia</strong>: https://medium.com/data-science-in-your-pocket/what-is-google-nested-learning-34385df5c40b<br />
+<strong>Fecha</strong>: 2026-02-26T13:21:04.268972<br />
+<strong>Estado</strong>: PROCESSED</p>
+<hr />
+<h2 id="-resumen-ejecutivo-2"><a class="header" href="#-resumen-ejecutivo-2">📋 Resumen Ejecutivo</a></h2>
+<p>Artículo sobre Google Nested Learning, una nueva arquitectura para resolver el problema de &quot;catastrophic forgetting&quot; en machine learning. Presentado en NeurIPS 2025, propone una reestructuración fundamental de cómo los modelos aprenden, tratando el optimizador como un sistema de aprendizaje anidado dentro del modelo principal.</p>
+<h2 id="-puntos-clave-1"><a class="header" href="#-puntos-clave-1">🎯 Puntos Clave</a></h2>
+<ol>
+<li><strong>Catastrophic Forgetting</strong>: Problema fundamental donde los modelos olvidan conocimiento previo cuando aprenden algo nuevo.</li>
+<li><strong>Nested Learning</strong>: Propuesta de Google que estructura el aprendizaje en múltiples capas de abstracción, cada una actualizándose a diferente ritmo.</li>
+<li><strong>Continuum Memory System (CMS)</strong>: Sistema de memoria que opera en un espectro de frecuencias de actualización, no solo memoria a corto/largo plazo.</li>
+<li><strong>Optimizadores como Memoria Asociativa</strong>: Reinterpretación de optimizadores (Adam, SGD) como módulos de memoria que recuerdan comportamientos previos.</li>
+</ol>
+<h2 id="-análisis-detallado"><a class="header" href="#-análisis-detallado">🔍 Análisis Detallado</a></h2>
+<h3 id="el-problema"><a class="header" href="#el-problema">El Problema</a></h3>
+<p>Cuando se fine-tunea un modelo en una nueva tarea (ej: inglés → francés), mejora en la nueva tarea pero olvida la anterior. Soluciones actuales (replay buffers, tweaks arquitectónicos) no resuelven la raíz.</p>
+<h3 id="la-solución-de-google"><a class="header" href="#la-solución-de-google">La Solución de Google</a></h3>
+<ul>
+<li><strong>Jerarquía de aprendizaje</strong>: Modelo + Optimizador como sistemas de aprendizaje interconectados.</li>
+<li><strong>Múltiples escalas de tiempo</strong>: Capas internas aprenden rápido (patrones conversacionales), capas medias lentamente (tono/estilo), capas externas estables (gramática/hechos).</li>
+<li><strong>Memoria continua</strong>: En lugar de ventana de contexto + pesos congelados, un espectro de módulos que actualizan a diferentes frecuencias.</li>
+</ul>
+<h3 id="implicaciones"><a class="header" href="#implicaciones">Implicaciones</a></h3>
+<ul>
+<li>Modelos que realmente recuerdan entre interacciones.</li>
+<li>Adaptación sin re-entrenamiento completo.</li>
+<li>Aprendizaje más similar al humano (múltiples ritmos en paralelo).</li>
+</ul>
+<h2 id="-acciones-sugeridas-1"><a class="header" href="#-acciones-sugeridas-1">💡 Acciones Sugeridas</a></h2>
+<ol>
+<li><strong>KNOW</strong>: Investigar paper original de NeurIPS 2025.</li>
+<li><strong>KNOW</strong>: Seguir desarrollos de Google Research en nested learning.</li>
+<li><strong>CODE</strong>: Experimentar con implementaciones open-source cuando estén disponibles.</li>
+<li><strong>KNOW</strong>: Monitorear aplicaciones en fine-tuning de LLMs.</li>
+</ol>
+<h2 id="-metadata-técnica"><a class="header" href="#-metadata-técnica">📊 Metadata Técnica</a></h2>
+<ul>
+<li><strong>Longitud</strong>: Artículo medio (6 min read)</li>
+<li><strong>Nivel</strong>: Intermedio-Avanzado</li>
+<li><strong>Audiencia</strong>: Data scientists, ML engineers</li>
+<li><strong>Actualidad</strong>: Nov 2025 (reciente)</li>
+</ul>
+<hr />
+<h2 id="-clasificación-automática-1"><a class="header" href="#-clasificación-automática-1">🏷️ Clasificación Automática</a></h2>
+<p><strong>Faceta principal</strong>: Data Science/AI<br />
+<strong>Score total</strong>: 14/10 ⭐⭐⭐ HIGH<br />
+<strong>Facetas detectadas</strong>: Comit SRL (+6), Data Science (+6), Técnico (+1), Práctico (+1)</p>
+<h2 id="-integraciones-1"><a class="header" href="#-integraciones-1">🔗 Integraciones</a></h2>
+<ul>
+<li><strong>Trello</strong>: https://trello.com/c/Cphlx6Bf</li>
+<li><strong>Original</strong>: https://medium.com/data-science-in-your-pocket/what-is-google-nested-learning-34385df5c40b</li>
+<li><strong>Evidencia ID</strong>: EVID-20260226-013</li>
+<li><strong>Procesado</strong>: 2026-02-26</li>
+</ul>
+<h2 id="-organización-1"><a class="header" href="#-organización-1">📁 Organización</a></h2>
+<p>Este artículo fue clasificado automáticamente en <code>src/datascience/</code> porque:</p>
+<ol>
+<li>Tiene igual score en Comit SRL y Data Science (6 puntos cada uno)</li>
+<li>El contenido es específicamente sobre machine learning/AI</li>
+<li>Data Science es más específico que Comit SRL para este tema</li>
+</ol>
+<hr />
+<p><em>Clasificado automáticamente por yacaré.bot - Sistema de scoring V1.0</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="understanding-neural-networks-from-pixels-to-digits-recognition"><a class="header" href="#understanding-neural-networks-from-pixels-to-digits-recognition">Understanding Neural Networks: From Pixels to Digits Recognition</a></h1>
+<p><strong>Evidencia ID</strong>: EVID-20260226-015<br />
+<strong>Fuente</strong>: Texto tutorial (procesado automáticamente)<br />
+<strong>Fecha</strong>: 2026-02-26T18:21:08.741996<br />
+<strong>Estado</strong>: PROCESADO</p>
+<hr />
+<h2 id="-resumen-ejecutivo-3"><a class="header" href="#-resumen-ejecutivo-3">📋 Resumen Ejecutivo</a></h2>
+<p>Tutorial introductorio sobre redes neuronales aplicadas al reconocimiento de dígitos escritos a mano (dataset MNIST). Explica conceptos fundamentales: neuronas, capas, activaciones, pesos, biases, función sigmoid, y la analogía biológica.</p>
+<h2 id="-relevancia"><a class="header" href="#-relevancia">🎯 Relevancia</a></h2>
+<p><strong>Score</strong>: 18/10 ⭐⭐⭐ HIGH<br />
+<strong>Nivel</strong>: Principiante-Intermedio<br />
+<strong>Aplicación</strong>: Fundamentos de Machine Learning/Deep Learning</p>
+<h2 id="-facetas-detectadas-1"><a class="header" href="#-facetas-detectadas-1">📊 Facetas Detectadas</a></h2>
+<p>Comit SRL, Data Science, General Tech</p>
+<h3 id="breakdown-detallado-1"><a class="header" href="#breakdown-detallado-1">Breakdown Detallado:</a></h3>
+<p>{
+&quot;comit_srl&quot;: 6,
+&quot;maker_iot&quot;: 0,
+&quot;data_science&quot;: 8,
+&quot;technical&quot;: 1,
+&quot;practical&quot;: 3,
+&quot;exclusion&quot;: 0
+}</p>
+<h2 id="-conceptos-clave-explicados"><a class="header" href="#-conceptos-clave-explicados">🧠 Conceptos Clave Explicados</a></h2>
+<h3 id="estructura-de-la-red-neuronal"><a class="header" href="#estructura-de-la-red-neuronal">Estructura de la Red Neuronal:</a></h3>
+<ul>
+<li><strong>Capa de entrada</strong>: 784 neuronas (28x28 píxeles MNIST)</li>
+<li><strong>Capas ocultas</strong>: 2 capas con 16 neuronas cada una</li>
+<li><strong>Capa de salida</strong>: 10 neuronas (dígitos 0-9)</li>
+<li><strong>Total parámetros</strong>: ~13,000 pesos y biases</li>
+</ul>
+<h3 id="proceso-de-activación"><a class="header" href="#proceso-de-activación">Proceso de Activación:</a></h3>
+<ol>
+<li><strong>Pesos (weights)</strong>: Conexiones entre neuronas</li>
+<li><strong>Suma ponderada</strong>: </li>
+<li><strong>Bias</strong>: Umbral de activación</li>
+<li><strong>Función de activación</strong>: Sigmoid (o ReLU en redes modernas)</li>
+</ol>
+<h3 id="analogía-biológica"><a class="header" href="#analogía-biológica">Analogía Biológica:</a></h3>
+<ul>
+<li>Neuronas ≈ unidades que mantienen números (0-1)</li>
+<li>Activación ≈ &quot;iluminación&quot; de la neurona</li>
+<li>Conexiones ≈ sinapsis con pesos variables</li>
+</ul>
+<h2 id="-aplicación-práctica-mnist"><a class="header" href="#-aplicación-práctica-mnist">🎯 Aplicación Práctica: MNIST</a></h2>
+<h3 id="dataset-mnist"><a class="header" href="#dataset-mnist">Dataset MNIST:</a></h3>
+<ul>
+<li>28x28 píxeles en escala de grises</li>
+<li>60,000 imágenes de entrenamiento</li>
+<li>10,000 imágenes de test</li>
+<li>Clásico benchmark para algoritmos ML</li>
+</ul>
+<h3 id="proceso-de-reconocimiento"><a class="header" href="#proceso-de-reconocimiento">Proceso de Reconocimiento:</a></h3>
+<ol>
+<li><strong>Entrada</strong>: Patrón de 784 activaciones (píxeles)</li>
+<li><strong>Propagación</strong>: Capa → capa mediante pesos</li>
+<li><strong>Salida</strong>: 10 activaciones (confianza por dígito)</li>
+<li><strong>Decisión</strong>: Neurona más &quot;brillante&quot; = dígito reconocido</li>
+</ol>
+<h2 id="-arquitectura-explicada"><a class="header" href="#-arquitectura-explicada">📈 Arquitectura Explicada</a></h2>
+<h3 id="capa-por-capa"><a class="header" href="#capa-por-capa">Capa por Capa:</a></h3>
+<ol>
+<li><strong>Capa 1 (Entrada)</strong>: Píxeles crudos</li>
+<li><strong>Capa 2 (Oculta)</strong>: Detección de bordes/patrones simples</li>
+<li><strong>Capa 3 (Oculta)</strong>: Combinación de bordes → formas (loops, líneas)</li>
+<li><strong>Capa 4 (Salida)</strong>: Combinación de formas → dígitos (0-9)</li>
+</ol>
+<h3 id="esperanza-arquitectónica"><a class="header" href="#esperanza-arquitectónica">Esperanza Arquitectónica:</a></h3>
+<ul>
+<li><strong>Capa 2</strong>: Detecta bordes pequeños</li>
+<li><strong>Capa 3</strong>: Detecta patrones (loops, líneas largas)</li>
+<li><strong>Capa 4</strong>: Combina patrones → dígitos</li>
+</ul>
+<h2 id="-implementación-técnica"><a class="header" href="#-implementación-técnica">🔧 Implementación Técnica</a></h2>
+<h3 id="función-sigmoid"><a class="header" href="#función-sigmoid">Función Sigmoid:</a></h3>
+<ul>
+<li>Rango: (0, 1)</li>
+<li>Biológicamente inspirada</li>
+<li>Menos usada en redes modernas (ReLU preferida)</li>
+</ul>
+<h3 id="relu-rectified-linear-unit"><a class="header" href="#relu-rectified-linear-unit">ReLU (Rectified Linear Unit):</a></h3>
+<ul>
+<li>Más fácil de entrenar</li>
+<li>Dominante en redes profundas modernas</li>
+<li>Inspirada en umbral de activación biológico</li>
+</ul>
+<h3 id="representación-matricial"><a class="header" href="#representación-matricial">Representación Matricial:</a></h3>
+<p>Donde:</p>
+<ul>
+<li>: Vector de activaciones capa l</li>
+<li>: Matriz de pesos</li>
+<li>: Vector de biases</li>
+<li>: Función de activación (sigmoid/ReLU)</li>
+</ul>
+<h2 id="-valor-educativo"><a class="header" href="#-valor-educativo">🎓 Valor Educativo</a></h2>
+<h3 id="para-aprendizaje"><a class="header" href="#para-aprendizaje">Para Aprendizaje:</a></h3>
+<ol>
+<li><strong>Fundamentos</strong>: Explicación intuitiva sin matemática avanzada</li>
+<li><strong>Visualización</strong>: Analogías con visión humana</li>
+<li><strong>Progresión</strong>: De píxeles → bordes → formas → dígitos</li>
+<li><strong>Contexto histórico</strong>: MNIST como benchmark clásico</li>
+</ol>
+<h3 id="limitaciones-explicadas"><a class="header" href="#limitaciones-explicadas">Limitaciones Explicadas:</a></h3>
+<ul>
+<li>Red &quot;vanilla&quot; simple (sin frills)</li>
+<li>13,000 parámetros a ajustar manualmente (thought experiment)</li>
+<li>Dificultad de entrenamiento sin algoritmo de aprendizaje</li>
+</ul>
+<h2 id="-acciones-sugeridas-2"><a class="header" href="#-acciones-sugeridas-2">🚀 Acciones Sugeridas</a></h2>
+<h3 id="know-1"><a class="header" href="#know-1">KNOW:</a></h3>
+<ul>
+<li>Profundizar en backpropagation (siguiente video)</li>
+<li>Estudiar dataset MNIST y variantes</li>
+<li>Comparar sigmoid vs ReLU vs otras funciones de activación</li>
+</ul>
+<h3 id="code-1"><a class="header" href="#code-1">CODE:</a></h3>
+<ul>
+<li>Implementar red neuronal vanilla desde cero</li>
+<li>Experimentar con diferentes arquitecturas (capas, neuronas)</li>
+<li>Probar con funciones de activación alternativas</li>
+</ul>
+<h3 id="tests-1"><a class="header" href="#tests-1">TESTS:</a></h3>
+<ul>
+<li>Validar con dataset MNIST completo</li>
+<li>Medir accuracy vs complejidad arquitectónica</li>
+<li>Benchmark contra algoritmos clásicos (k-NN, SVM)</li>
+</ul>
+<h3 id="deck-1"><a class="header" href="#deck-1">DECK:</a></h3>
+<ul>
+<li>Presentación educativa sobre fundamentos NN</li>
+<li>Tutorial paso a paso con visualizaciones</li>
+<li>Comparativa histórica: perceptrón → MLP → Deep Learning</li>
+</ul>
+<hr />
+<h2 id="-clasificación-automática-2"><a class="header" href="#-clasificación-automática-2">🏷️ Clasificación Automática</a></h2>
+<p><strong>Faceta principal</strong>: Data Science/AI<br />
+<strong>Score total</strong>: 18/10 ⭐⭐⭐ HIGH<br />
+<strong>Dificultad</strong>: Beginner-Intermediate<br />
+<strong>Aplicabilidad</strong>: Educativa/Fundamental</p>
+<h2 id="-integraciones-2"><a class="header" href="#-integraciones-2">🔗 Integraciones</a></h2>
+<ul>
+<li><strong>Trello</strong>: Por crear (evidencia EVID-20260226-015)</li>
+<li><strong>GitHub</strong>: Este archivo en </li>
+<li><strong>MNIST</strong>: Dataset clásico de machine learning</li>
+</ul>
+<h2 id="-organización-2"><a class="header" href="#-organización-2">📁 Organización</a></h2>
+<p>Este artículo fue clasificado automáticamente en  porque:</p>
+<ol>
+<li>Alto score en Data Science (tutorial ML/AI)</li>
+<li>Contenido educativo sobre fundamentos neural networks</li>
+<li>Aplicación práctica con dataset MNIST</li>
+</ol>
+<hr />
+<p><em>Procesado automáticamente por yacaré.bot - Sistema de scoring V1.0</em><br />
+<em>Documento original: EVID-20260226-015</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="-general-tech"><a class="header" href="#-general-tech">💻 General Tech</a></h1>
+<p>Artículos técnicos generales sobre software development, cloud, APIs, etc.</p>
+<h2 id="-criterios-de-inclusión-3"><a class="header" href="#-criterios-de-inclusión-3">📋 Criterios de Inclusión</a></h2>
+<ul>
+<li>Software development</li>
+<li>Cloud computing, AWS, Azure</li>
+<li>APIs, microservices</li>
+<li>DevOps, CI/CD</li>
+<li>Programming languages, frameworks</li>
+</ul>
+<h2 id="-scoring-3"><a class="header" href="#-scoring-3">📊 Scoring</a></h2>
+<p>Puntos por keywords técnicos generales.</p>
+<hr />
+<p><em>Organizado automáticamente por yacaré.bot</em></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+    </div>
+    </body>
+</html>

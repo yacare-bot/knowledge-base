@@ -1,0 +1,388 @@
+<!DOCTYPE HTML>
+<html lang="es" class="navy" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>EVID-015 - Introduction to Neural Networks (MNIST) - yacaré.bot Knowledge Base</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="Base de conocimiento automatizada — procesada y clasificada por yacaré.bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "navy";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('navy')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introducción</a></li><li class="chapter-item expanded "><a href="../inbox/index.html"><strong aria-hidden="true">1.</strong> Febrero 2026</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../inbox/2026-02/EVID-20260226-013.html"><strong aria-hidden="true">1.1.</strong> EVID-20260226-013</a></li><li class="chapter-item "><a href="../inbox/2026-02/EVID-20260226-014.html"><strong aria-hidden="true">1.2.</strong> EVID-20260226-014</a></li><li class="chapter-item "><a href="../inbox/2026-02/EVID-20260226-015.html"><strong aria-hidden="true">1.3.</strong> EVID-20260226-015</a></li></ol></li><li class="chapter-item expanded "><a href="../comit/index.html"><strong aria-hidden="true">2.</strong> ERP / iDempiere</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../comit/EVID-20260226-014-plan-de-implementación-para-integrar-un-agente-de-.html"><strong aria-hidden="true">2.1.</strong> EVID-014 - WhatsApp/Instagram Integration Plan</a></li></ol></li><li class="chapter-item expanded "><a href="../maker/index.html"><strong aria-hidden="true">3.</strong> Raspberry Pi / ESP32</a></li><li class="chapter-item expanded "><a href="../datascience/index.html"><strong aria-hidden="true">4.</strong> Machine Learning / Transformers</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../datascience/EVID-20260226-013-google-nested-learning.html"><strong aria-hidden="true">4.1.</strong> EVID-013 - Google Nested Learning</a></li><li class="chapter-item expanded "><a href="../datascience/EVID-20260226-015-introduction-to-neural-networks-mnist-tutorial.html" class="active"><strong aria-hidden="true">4.2.</strong> EVID-015 - Introduction to Neural Networks (MNIST)</a></li></ol></li><li class="chapter-item expanded "><a href="../general/index.html"><strong aria-hidden="true">5.</strong> Software Development / Cloud</a></li><li class="spacer"></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">yacaré.bot Knowledge Base</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/yacare-bot/knowledge-base" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/yacare-bot/knowledge-base/edit/main/src/datascience/EVID-20260226-015-introduction-to-neural-networks-mnist-tutorial.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="understanding-neural-networks-from-pixels-to-digits-recognition"><a class="header" href="#understanding-neural-networks-from-pixels-to-digits-recognition">Understanding Neural Networks: From Pixels to Digits Recognition</a></h1>
+<p><strong>Evidencia ID</strong>: EVID-20260226-015<br />
+<strong>Fuente</strong>: Texto tutorial (procesado automáticamente)<br />
+<strong>Fecha</strong>: 2026-02-26T18:21:08.741996<br />
+<strong>Estado</strong>: PROCESADO</p>
+<hr />
+<h2 id="-resumen-ejecutivo"><a class="header" href="#-resumen-ejecutivo">📋 Resumen Ejecutivo</a></h2>
+<p>Tutorial introductorio sobre redes neuronales aplicadas al reconocimiento de dígitos escritos a mano (dataset MNIST). Explica conceptos fundamentales: neuronas, capas, activaciones, pesos, biases, función sigmoid, y la analogía biológica.</p>
+<h2 id="-relevancia"><a class="header" href="#-relevancia">🎯 Relevancia</a></h2>
+<p><strong>Score</strong>: 18/10 ⭐⭐⭐ HIGH<br />
+<strong>Nivel</strong>: Principiante-Intermedio<br />
+<strong>Aplicación</strong>: Fundamentos de Machine Learning/Deep Learning</p>
+<h2 id="-facetas-detectadas"><a class="header" href="#-facetas-detectadas">📊 Facetas Detectadas</a></h2>
+<p>Comit SRL, Data Science, General Tech</p>
+<h3 id="breakdown-detallado"><a class="header" href="#breakdown-detallado">Breakdown Detallado:</a></h3>
+<p>{
+&quot;comit_srl&quot;: 6,
+&quot;maker_iot&quot;: 0,
+&quot;data_science&quot;: 8,
+&quot;technical&quot;: 1,
+&quot;practical&quot;: 3,
+&quot;exclusion&quot;: 0
+}</p>
+<h2 id="-conceptos-clave-explicados"><a class="header" href="#-conceptos-clave-explicados">🧠 Conceptos Clave Explicados</a></h2>
+<h3 id="estructura-de-la-red-neuronal"><a class="header" href="#estructura-de-la-red-neuronal">Estructura de la Red Neuronal:</a></h3>
+<ul>
+<li><strong>Capa de entrada</strong>: 784 neuronas (28x28 píxeles MNIST)</li>
+<li><strong>Capas ocultas</strong>: 2 capas con 16 neuronas cada una</li>
+<li><strong>Capa de salida</strong>: 10 neuronas (dígitos 0-9)</li>
+<li><strong>Total parámetros</strong>: ~13,000 pesos y biases</li>
+</ul>
+<h3 id="proceso-de-activación"><a class="header" href="#proceso-de-activación">Proceso de Activación:</a></h3>
+<ol>
+<li><strong>Pesos (weights)</strong>: Conexiones entre neuronas</li>
+<li><strong>Suma ponderada</strong>: </li>
+<li><strong>Bias</strong>: Umbral de activación</li>
+<li><strong>Función de activación</strong>: Sigmoid (o ReLU en redes modernas)</li>
+</ol>
+<h3 id="analogía-biológica"><a class="header" href="#analogía-biológica">Analogía Biológica:</a></h3>
+<ul>
+<li>Neuronas ≈ unidades que mantienen números (0-1)</li>
+<li>Activación ≈ &quot;iluminación&quot; de la neurona</li>
+<li>Conexiones ≈ sinapsis con pesos variables</li>
+</ul>
+<h2 id="-aplicación-práctica-mnist"><a class="header" href="#-aplicación-práctica-mnist">🎯 Aplicación Práctica: MNIST</a></h2>
+<h3 id="dataset-mnist"><a class="header" href="#dataset-mnist">Dataset MNIST:</a></h3>
+<ul>
+<li>28x28 píxeles en escala de grises</li>
+<li>60,000 imágenes de entrenamiento</li>
+<li>10,000 imágenes de test</li>
+<li>Clásico benchmark para algoritmos ML</li>
+</ul>
+<h3 id="proceso-de-reconocimiento"><a class="header" href="#proceso-de-reconocimiento">Proceso de Reconocimiento:</a></h3>
+<ol>
+<li><strong>Entrada</strong>: Patrón de 784 activaciones (píxeles)</li>
+<li><strong>Propagación</strong>: Capa → capa mediante pesos</li>
+<li><strong>Salida</strong>: 10 activaciones (confianza por dígito)</li>
+<li><strong>Decisión</strong>: Neurona más &quot;brillante&quot; = dígito reconocido</li>
+</ol>
+<h2 id="-arquitectura-explicada"><a class="header" href="#-arquitectura-explicada">📈 Arquitectura Explicada</a></h2>
+<h3 id="capa-por-capa"><a class="header" href="#capa-por-capa">Capa por Capa:</a></h3>
+<ol>
+<li><strong>Capa 1 (Entrada)</strong>: Píxeles crudos</li>
+<li><strong>Capa 2 (Oculta)</strong>: Detección de bordes/patrones simples</li>
+<li><strong>Capa 3 (Oculta)</strong>: Combinación de bordes → formas (loops, líneas)</li>
+<li><strong>Capa 4 (Salida)</strong>: Combinación de formas → dígitos (0-9)</li>
+</ol>
+<h3 id="esperanza-arquitectónica"><a class="header" href="#esperanza-arquitectónica">Esperanza Arquitectónica:</a></h3>
+<ul>
+<li><strong>Capa 2</strong>: Detecta bordes pequeños</li>
+<li><strong>Capa 3</strong>: Detecta patrones (loops, líneas largas)</li>
+<li><strong>Capa 4</strong>: Combina patrones → dígitos</li>
+</ul>
+<h2 id="-implementación-técnica"><a class="header" href="#-implementación-técnica">🔧 Implementación Técnica</a></h2>
+<h3 id="función-sigmoid"><a class="header" href="#función-sigmoid">Función Sigmoid:</a></h3>
+<ul>
+<li>Rango: (0, 1)</li>
+<li>Biológicamente inspirada</li>
+<li>Menos usada en redes modernas (ReLU preferida)</li>
+</ul>
+<h3 id="relu-rectified-linear-unit"><a class="header" href="#relu-rectified-linear-unit">ReLU (Rectified Linear Unit):</a></h3>
+<ul>
+<li>Más fácil de entrenar</li>
+<li>Dominante en redes profundas modernas</li>
+<li>Inspirada en umbral de activación biológico</li>
+</ul>
+<h3 id="representación-matricial"><a class="header" href="#representación-matricial">Representación Matricial:</a></h3>
+<p>Donde:</p>
+<ul>
+<li>: Vector de activaciones capa l</li>
+<li>: Matriz de pesos</li>
+<li>: Vector de biases</li>
+<li>: Función de activación (sigmoid/ReLU)</li>
+</ul>
+<h2 id="-valor-educativo"><a class="header" href="#-valor-educativo">🎓 Valor Educativo</a></h2>
+<h3 id="para-aprendizaje"><a class="header" href="#para-aprendizaje">Para Aprendizaje:</a></h3>
+<ol>
+<li><strong>Fundamentos</strong>: Explicación intuitiva sin matemática avanzada</li>
+<li><strong>Visualización</strong>: Analogías con visión humana</li>
+<li><strong>Progresión</strong>: De píxeles → bordes → formas → dígitos</li>
+<li><strong>Contexto histórico</strong>: MNIST como benchmark clásico</li>
+</ol>
+<h3 id="limitaciones-explicadas"><a class="header" href="#limitaciones-explicadas">Limitaciones Explicadas:</a></h3>
+<ul>
+<li>Red &quot;vanilla&quot; simple (sin frills)</li>
+<li>13,000 parámetros a ajustar manualmente (thought experiment)</li>
+<li>Dificultad de entrenamiento sin algoritmo de aprendizaje</li>
+</ul>
+<h2 id="-acciones-sugeridas"><a class="header" href="#-acciones-sugeridas">🚀 Acciones Sugeridas</a></h2>
+<h3 id="know"><a class="header" href="#know">KNOW:</a></h3>
+<ul>
+<li>Profundizar en backpropagation (siguiente video)</li>
+<li>Estudiar dataset MNIST y variantes</li>
+<li>Comparar sigmoid vs ReLU vs otras funciones de activación</li>
+</ul>
+<h3 id="code"><a class="header" href="#code">CODE:</a></h3>
+<ul>
+<li>Implementar red neuronal vanilla desde cero</li>
+<li>Experimentar con diferentes arquitecturas (capas, neuronas)</li>
+<li>Probar con funciones de activación alternativas</li>
+</ul>
+<h3 id="tests"><a class="header" href="#tests">TESTS:</a></h3>
+<ul>
+<li>Validar con dataset MNIST completo</li>
+<li>Medir accuracy vs complejidad arquitectónica</li>
+<li>Benchmark contra algoritmos clásicos (k-NN, SVM)</li>
+</ul>
+<h3 id="deck"><a class="header" href="#deck">DECK:</a></h3>
+<ul>
+<li>Presentación educativa sobre fundamentos NN</li>
+<li>Tutorial paso a paso con visualizaciones</li>
+<li>Comparativa histórica: perceptrón → MLP → Deep Learning</li>
+</ul>
+<hr />
+<h2 id="-clasificación-automática"><a class="header" href="#-clasificación-automática">🏷️ Clasificación Automática</a></h2>
+<p><strong>Faceta principal</strong>: Data Science/AI<br />
+<strong>Score total</strong>: 18/10 ⭐⭐⭐ HIGH<br />
+<strong>Dificultad</strong>: Beginner-Intermediate<br />
+<strong>Aplicabilidad</strong>: Educativa/Fundamental</p>
+<h2 id="-integraciones"><a class="header" href="#-integraciones">🔗 Integraciones</a></h2>
+<ul>
+<li><strong>Trello</strong>: Por crear (evidencia EVID-20260226-015)</li>
+<li><strong>GitHub</strong>: Este archivo en </li>
+<li><strong>MNIST</strong>: Dataset clásico de machine learning</li>
+</ul>
+<h2 id="-organización"><a class="header" href="#-organización">📁 Organización</a></h2>
+<p>Este artículo fue clasificado automáticamente en  porque:</p>
+<ol>
+<li>Alto score en Data Science (tutorial ML/AI)</li>
+<li>Contenido educativo sobre fundamentos neural networks</li>
+<li>Aplicación práctica con dataset MNIST</li>
+</ol>
+<hr />
+<p><em>Procesado automáticamente por yacaré.bot - Sistema de scoring V1.0</em><br />
+<em>Documento original: EVID-20260226-015</em></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../datascience/EVID-20260226-013-google-nested-learning.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../general/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../datascience/EVID-20260226-013-google-nested-learning.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../general/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
