@@ -7,6 +7,7 @@
   - [EVID-20260226-013](./inbox/2026-02/EVID-20260226-013.md)
   - [EVID-20260226-014](./inbox/2026-02/EVID-20260226-014.md)
   - [EVID-20260226-015](./inbox/2026-02/EVID-20260226-015.md)
+  - [EVID-20260227-002 - Residuos Peligrosos 2025-2026](./inbox/2026-02/EVID-20260227-002.md)
 
 ## 🏢 Comit SRL (Negocio)
 - [ERP / iDempiere](./comit/README.md)
